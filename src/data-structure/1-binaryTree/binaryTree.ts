@@ -1,4 +1,4 @@
-class TreeNode {
+export class TreeNode {
 	val: number;
 	left: TreeNode | null;
 	right: TreeNode | null;
@@ -16,7 +16,6 @@ export class BinaryTree {
 		this.root = root || null;
 	}
 
-	// Insert a new node into the binary tree
 	insert(value: number): void {
 		const newNode = new TreeNode(value);
 
@@ -86,35 +85,6 @@ export class BinaryTree {
 		this.root = removeNode(this.root, value);
 	}
 
-	// ============
-
-	// Depth-First Search (DFS) traversal. In Order
-	traversalDFS(node: TreeNode | null = this.root): void {
-		if (node === null) return;
-		this.traversalDFS(node.left);
-		console.log(node.val); // Visit the node
-		this.traversalDFS(node.right);
-	}
-
-	// Breadth-First Search (BFS) traversal. Pre Order
-	traversalBFS(node: TreeNode | null = this.root): void {
-		if (node === null) return;
-		const queue: TreeNode[] = [node];
-		while (queue.length > 0) {
-			const currentNode = queue.shift()!;
-			if (currentNode.left) queue.push(currentNode.left);
-			if (currentNode.right) queue.push(currentNode.right);
-		}
-	}
-
-	// Depth-First Search (DFS) traversal. Post Order
-	traversalDFSPostOrder(node: TreeNode | null = this.root): void {
-		if (node === null) return;
-		this.traversalDFSPostOrder(node.left);
-		this.traversalDFSPostOrder(node.right);
-		console.log(node.val); // Visit the node
-	}
-
 	// =============
 
 	countNodes(node: TreeNode | null = this.root): number {
@@ -168,4 +138,115 @@ export class BinaryTree {
 
 		return false;
 	}
+
+	// ============
+
+	isBalanced(node: TreeNode | null = this.root): boolean {
+		return this.findMinHeight(node) >= this.findMaxHeight(node) - 1;
+	}
+
+	findMinHeight(node: TreeNode | null = this.root): number {
+		if (!node) return -1;
+		let leftHeight = this.findMinHeight(node.left);
+		let rightHeight = this.findMinHeight(node.right);
+
+		if (leftHeight < rightHeight) {
+			return leftHeight + 1;
+		} else {
+			return rightHeight + 1;
+		}
+	}
+
+	findMaxHeight(node: TreeNode | null = this.root): number {
+		if (!node) return -1;
+		let leftHeight = this.findMinHeight(node.left);
+		let rightHeight = this.findMinHeight(node.right);
+
+		if (leftHeight > rightHeight) {
+			return leftHeight + 1;
+		} else {
+			return rightHeight + 1;
+		}
+	}
+
+	// Depth-First Search (DFS) traversal. In Order
+	traversalDFS(node: TreeNode | null = this.root): number[] | null {
+		if (node === null) return null;
+		const result = new Array();
+
+		function traverseInOrder(node: TreeNode) {
+			node.left && traverseInOrder(node.left);
+			result.push(node.val);
+			node.right && traverseInOrder(node.right);
+		}
+		traverseInOrder(node);
+
+		return result;
+	}
+
+	// Breadth-First Search (BFS) traversal. Pre Order
+	traversalBFS(node: TreeNode | null = this.root): number[] | null {
+		if (node === null) return null;
+		const result = new Array();
+
+		function traversePreOrder(node: TreeNode) {
+			result.push(node.val);
+			node.left && traversePreOrder(node.left);
+			node.right && traversePreOrder(node.right);
+		}
+
+		traversePreOrder(node);
+
+		return result;
+	}
+
+	traversalDFSPostOrder(node: TreeNode | null = this.root): number[] | null {
+		if (node === null) return null;
+
+		const result = new Array();
+
+		function traversePostOrder(node: TreeNode) {
+			node.left && traversePostOrder(node.left);
+			node.right && traversePostOrder(node.right);
+			result.push(node.val);
+		}
+		traversePostOrder(node);
+
+		return result;
+	}
+}
+
+export function viewBinaryTree() {
+	const newTree = new BinaryTree();
+
+	newTree.insert(10);
+	newTree.insert(5);
+	newTree.insert(15);
+	newTree.insert(3);
+	newTree.insert(7);
+	newTree.insert(12);
+
+	console.log('Binary Tree:');
+
+	console.log('Number of nodes:', newTree.countNodes());
+
+	console.log('Minimum value:', newTree.findMin()?.val);
+
+	console.log('Maximum value:', newTree.findMax()?.val);
+
+	console.log('Find value 7:', newTree.find(7));
+
+	console.log('Is value 7 present:', newTree.isPresent(7));
+
+	console.log('Is Balanced tree', newTree.isBalanced());
+
+	console.log('Tree Max Height:', newTree.findMaxHeight());
+
+	console.log('Tree Min Height:', newTree.findMinHeight());
+
+	console.log('DFS Traversal (In Order):', newTree.traversalDFS());
+
+	console.log('BFS Traversal (Pre Order):', newTree.traversalBFS());
+
+	console.log('DFS Traversal (Post Order):', newTree.traversalDFSPostOrder());
 }

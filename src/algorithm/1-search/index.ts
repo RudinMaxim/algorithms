@@ -12,7 +12,7 @@ const nums = [
 
 const target = 72;
 
-console.log('normalSearch', normalSearch(nums, target));
-console.log('binarySearch', binarySearch(nums, target));
+// console.log('normalSearch', normalSearch(nums, target));
+// console.log('binarySearch', binarySearch(nums, target));
 
 export { binarySearch, normalSearch };
