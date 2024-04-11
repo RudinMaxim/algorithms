@@ -1,5 +1,5 @@
-import { binarySearch } from './binarySearch';
-import { normalSearch } from './normalSearch';
+import { normalSearch } from './1-1-normalSearch/normalSearch';
+import { binarySearch } from './1-2-binarySearch/binarySearch';
 
 const nums = [
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -14,3 +14,5 @@ const target = 72;
 
 console.log('normalSearch', normalSearch(nums, target));
 console.log('binarySearch', binarySearch(nums, target));
+
+export { binarySearch, normalSearch };
