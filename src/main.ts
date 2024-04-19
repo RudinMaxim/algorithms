@@ -1,2 +1,3 @@
-import './algorithm/index';
-import './data-structure/index';
+import { viewSelectedSort } from './sort/6-selectedSort/6-selectedSort';
+
+viewSelectedSort();
